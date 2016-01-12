@@ -1,0 +1,50 @@
+[alias]
+	st = status -sb
+	br = branch -vv
+	bra = branch -vv --all
+	bed = branch --edit-description
+	aa = add --all :/
+	ci = commit -v
+	ca = commit --amend -v
+	save = commit -a -m "Save"
+
+[color]
+	ui = auto
+
+[color "grep"]
+	match = cyan bold
+	selected = blue
+	context = normal
+	filename = magenta
+	linenumber = green
+	separator = yellow
+	function = blue
+
+[core]
+	excludesfile = ~/.gitignore_global
+
+[credential]
+	helper = cache --timeout=43200
+
+[diff]
+	mnemonicPrefix = true
+	wordRegex = "[^[:space:]]|([[:alnum:]]|UTF_8_GUARD)+"
+
+[grep]
+	lineNumber = true
+
+# Allow local customizations in the .gitconfig_local file
+[include]
+	path = ~/.gitconfig_local
+
+[pretty]
+	line = "%C(auto)%h%d %s %C(yellow)by %C(blue)%an %C(green)%ar"
+	compact = "%C(auto)%h %s %C(green)%ar%n %C(auto)%d%n"
+	detail = "%C(auto)%h %s%n  %C(yellow)by %C(blue)%an %C(magenta)<%ae> [%G?] %C(green)%ar%n %C(auto)%d%n"
+
+[push]
+	default = upstream
+
+[user]
+	email = thomas.karamp@gmail.com
+	name = thomas

@@ -1,0 +1,39 @@
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Allow local customizations in the ~/.zshrc_local_before file
+if [ -f ~/.zshrc_local_before ]; then
+    source ~/.zshrc_local_before
+fi
+
+# Aliases
+source ~/.zsh/aliases.zsh
+
+# Zsh has a spelling corrector
+setopt CORRECT
+
+# if you do a 'rm *', Zsh will give you a sanity check!
+setopt RM_STAR_WAIT
+
+# want your terminal to support 256 color schemes? I do ...
+#export TERM="xterm-256color"
+
+export TERM=xterm-256color
+[ -n "$TMUX" ] && export TERM=screen-256color
+
+
+# allows you to type Bash style comments on your command line
+# good 'ol Bash
+setopt interactivecomments
+
+# beeps are annoying
+setopt NO_BEEP
+
+#To save every command before it is executed (this is different from bash's history -a solution):
+setopt inc_append_history
+#
+##To retrieve the history file everytime history is called upon.
+setopt share_history
+
