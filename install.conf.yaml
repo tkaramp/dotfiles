@@ -1,3 +1,25 @@
-- clean: []
-- link: {}
-- shell: []
+- clean: ['~', '~/.config']
+
+- link:
+    ~/.axelrc: axelrc
+    ~/.dotfiles: ''
+    ~/.emacs: emacs/emacs
+    ~/.gitconfig: git/gitconfig
+    ~/.gitignore_global: git/gitignore_global
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.vim: vim/
+    ~/.Xdefaults: Xdefaults
+    ~/.zprezto: zsh/prezto
+    ~/.aliases.zsh: zsh/aliases/zsh
+    ~/.zshrc: zsh/zshrc
+    ~/.zshenv: zsh/zshenv
+    ~/.zshistory: zsh/zshistory
+    ~/.zlogin: zsh/zlogin
+    ~/.zlogout: zsh/zlogout
+    ~/.zpreztorc: zsh/zpreztorc
+    ~/.zprofile: zsh/zprofile
+    ~/.zprofile: zsh/zprofile
+    ~/.zprezto/modules/prompt/functions/prompt_mysorin_setup: zsh/prompt_mysorin_setup
+
+- shell:
+  - git update-submodules # after linking ~/.gitconfig
