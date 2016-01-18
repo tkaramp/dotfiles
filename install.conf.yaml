@@ -10,10 +10,10 @@
     ~/.vim: vim/
     ~/.Xdefaults: Xdefaults
     ~/.zprezto: zsh/prezto
-    ~/.aliases.zsh: zsh/aliases/zsh
+    ~/.aliases.zsh: zsh/aliases.zsh
     ~/.zshrc: zsh/zshrc
     ~/.zshenv: zsh/zshenv
-    ~/.zshistory: zsh/zshistory
+    ~/.zhistory: zsh/zhistory
     ~/.zlogin: zsh/zlogin
     ~/.zlogout: zsh/zlogout
     ~/.zpreztorc: zsh/zpreztorc
