@@ -7,11 +7,12 @@
     ~/.gitconfig: git/gitconfig
     ~/.gitignore_global: git/gitignore_global
     ~/.tmux.conf: tmux/tmux.conf
-    ~/.vim: vim/
     ~/.Xdefaults: Xdefaults
     ~/.zprezto: zsh/prezto
     ~/.aliases.zsh: zsh/aliases.zsh
-    ~/.zshrc: zsh/zshrc
+    ~/.zshrc: 
+	path: zsh/zshrc
+	force: true
     ~/.zshenv: zsh/zshenv
     ~/.zhistory: zsh/zhistory
     ~/.zlogin: zsh/zlogin
