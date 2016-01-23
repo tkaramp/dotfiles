@@ -1,0 +1,44 @@
+[color]
+    ui =  auto
+    interactive = auto
+
+[color "branch"]
+    current = cyan
+    local = blue
+    remote = yellow
+
+[color "diff"]
+    meta = blue
+    frag = cyan
+
+    plain = black
+    old = red
+    new = green
+
+    whitespace = red reverse
+    commit = normal
+
+[color "decorate"]
+    HEAD = cyan
+
+    tag =  green
+    branch = blue
+    remoteBranch = yellow
+    stash = magenta
+
+[color "grep"]
+        match = cyan bold
+        selected = blue
+        context = normal
+        filename = magenta
+        linenumber = green
+        separator = yellow
+        function = blue
+
+[color "status"]
+    header = cyan
+    nobranch = red
+
+    added = yellow
+    changed = green
+    untracked = red

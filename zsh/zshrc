@@ -9,7 +9,7 @@ if [ -f ~/.zshrc_local_before ]; then
 fi
 
 # Aliases
-source ~/.zsh/aliases.zsh
+source ~/.dotfiles/zsh/aliases.zsh
 
 # Zsh has a spelling corrector
 setopt CORRECT

@@ -3,10 +3,7 @@
 	url = https://github.com/anishathalye/dotbot
 [submodule "prezto"]
 	path = prezto
-	url = https://github.com/sorin-ionescu/prezto
-[submodule "git/prezto"]
-	path = git/prezto
-	url = https://github.com/sorin-ionescu/prezto
-[submodule "zsh/prezto"]
-	path = zsh/prezto
-	url = https://github.com/sorin-ionescu/prezto
+	url = https://github.com/sorin-ionescu/prezto.git
+[submodule "nano/highlights"]
+	path = nano/highlights
+	url = https://github.com/scopatz/nanorc.git

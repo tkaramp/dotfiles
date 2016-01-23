@@ -19,14 +19,18 @@ zstyle ':prezto:load' pmodule \
   'history' \
   'directory' \
   'spectrum' \
+  'archive' \
   'utility' \
   'ssh' \
   'completion' \
-  'git' \
+  'perl' \
+  'python' \
   'tmux' \
+  'git' \
   'syntax-highlighting' \
   'history-substring-search' \
   'prompt'
+
 
 #
 # Editor
