@@ -1,6 +1,9 @@
 - clean: ['~', '~/.config']
 
 - link:
+    ~/.config/autostart:
+      create: true
+      path: config/autostart/
     # Z shell.
     ~/.zprezto: prezto
     # We don't change these.
