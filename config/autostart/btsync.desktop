@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/thomas/bin/btsync
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=btsync
+Name=btsync
+Comment[en_US]=
+Comment=
