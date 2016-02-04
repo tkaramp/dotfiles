@@ -1,35 +1,56 @@
 -- Imports.
-import XMonad
+import XMonad                          -- (0) core xmonad libraries
+
+import qualified XMonad.StackSet as W  -- (0a) window stack manipulation
+import qualified Data.Map        as M  -- (0b) map creation
+import Data.Monoid
+
+import XMonad.Layout.MagicFocus        -- (0c)
+
+-- Hooks -----------------------------------------------------
+
 import XMonad.Hooks.SetWMName
-import XMonad.Layout.ResizableTile
+import XMonad.Hooks.ManageHelpers   -- 	   	for doCenterFloat, put floating
+                                    --     	windows in the middle of the
+                                    --     	screen
+import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageDocks     --	   	dock/tray mgmt
+import XMonad.Hooks.FadeInactive
+import XMonad.Hooks.ICCCMFocus
+
+-- Layout ----------------------------------------------------
+
+import XMonad.Layout.ResizableTile  --		resize non-master windows too
+import XMonad.Layout.Grid			--		grid layout
+import XMonad.Layout.NoBorders		--		get rid of borders sometimes
+import XMonad.Layout.Tabbed
+import XMonad.Layout.Fullscreen
+import XMonad.Layout.Circle
 import XMonad.Layout.IM
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.PerWorkspace (onWorkspace)
-import XMonad.Layout.Circle
-import XMonad.Operations
-import System.IO
-import System.Exit
-import XMonad.Util.Run
-import XMonad.Actions.CycleWS
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.UrgencyHook
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks    -- dock/tray mgmt
-import Data.Monoid
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
-import System.Exit
-import XMonad.Layout.Grid
-import XMonad.Layout.NoBorders
-import XMonad.Layout.Tabbed
-import XMonad.Layout.Fullscreen
-import XMonad.Layout.Spacing
-import XMonad.Util.EZConfig
-import XMonad.Actions.Plane
-import XMonad.Hooks.ICCCMFocus
-import Data.Ratio ((%))
-import XMonad.Hooks.FadeInactive
+import XMonad.Layout.Spacing		--		insert gap between windows
+
+-- Actions ---------------------------------------------------
+
+import XMonad.Actions.CycleWS      	--		general workspace-switching
+                                   	--      goodness
+
+-- Prompts ---------------------------------------------------
+
+
+-- Utilities -------------------------------------------------
+
+import XMonad.Util.Run				--		for 'spawnPipe', 'hPutStrLn'
+import XMonad.Util.EZConfig			--		"M-C-x" style keybindings
 import XMonad.Util.WindowProperties
+
+import Data.Ratio ((%))
+
+--import System.IO
+--import System.Exit
+--import XMonad.Operations
 
 {-
   Xmonad configuration variables. These settings control some of the
@@ -37,14 +58,33 @@ import XMonad.Util.WindowProperties
 -}
 
 myModMask            = mod4Mask       -- changes the mod key to "super"
-myFocusedBorderColor = "#2141D2" --"#154D83" --"#2E9AFE"      -- color of focused border
-myNormalBorderColor  = "Dark Gray"      -- color of inactive border
-myBorderWidth        = 2              -- width of border around windows
+
+-- default programs
 myTerminal           = "terminator"   -- which terminal software to use
 myIMRosterTitle      = "Buddy List"   -- title of roster on IM workspace
                                       -- use "Buddy List" for Pidgin, but
                                       -- "Contact List" for Empathy
+myBrowser = "google-chrome"
+myEmail    = "thundbird"
+myFileMan  = "nautilus"
+--myEditor   = "sublime-text"
+myPiracy   = "transmission-gtk"
+myMusic    = "spotify"
 
+-- window border customization
+--"#154D83" --"#2E9AFE"
+myFocusedBorderColor = "#1793D1" -- color of focused border
+myNormalBorderColor  = "#413F3B"      -- color of inactive border
+myBorderWidth        = 2              -- width of border around windows
+
+
+-- | Whether focus follows the mouse pointer.
+myFocusFollowsMouse :: Bool
+myFocusFollowsMouse = False
+
+-- | Whether a mouse click select the focus or is just passed to the window
+myClickJustFocuses :: Bool
+myClickJustFocuses = True
 
 
 {-
@@ -131,10 +171,6 @@ defaultLayouts = smartBorders(avoidStruts(
   -- bottom of the screen. Can be resized as described above.
   ||| Mirror (spacing 5 (ResizableTall 1 (3/100) (1/2) []))
 
-  -- Full layout makes every window full screen. When you toggle the
-  -- active window, it will bring the active window to the front.
-  ||| noBorders (fullscreenFull Full)
-
   -- ThreeColMid layout puts the large master window in the center
   -- of the screen. As configured below, by default it takes of 3/4 of
   -- the available space. Remaining windows tile to both the left and
@@ -154,6 +190,9 @@ defaultLayouts = smartBorders(avoidStruts(
   -- Master window is at top left.
   ||| spacing 5 (Grid)))
 
+  -- Full layout makes every window full screen. When you toggle the
+  -- active window, it will bring the active window to the front.
+  ||| noBorders (fullscreenFull Full)
 
 -- Here we define some layouts which will be assigned to specific
 -- workspaces based on the functionality of that workspace.
@@ -216,8 +255,14 @@ myKeyBindings =
     , ((0, xK_F7), spawn "amixer -q set Master toggle")
     , ((0, xK_F8), spawn "amixer -q set Master 10%-")
     , ((0, xK_F9), spawn "amixer -q set Master 10%+")
-    , ((0, xK_F5), spawn "xbacklight -dec 10")
-    , ((0, xK_F6), spawn "xbacklight -inc 10")
+--    , ((0, xK_F5), spawn "xbacklight -dec 10")
+--    , ((0, xK_F6), spawn "xbacklight -inc 10")
+    , ((myModMask .|. shiftMask, xK_b), spawn myBrowser)
+    , ((myModMask .|. shiftMask, xK_T), spawn myEmail)
+    , ((myModMask .|. shiftMask, xK_f), spawn myFileMan)
+--    , ((myModMask .|. shiftMask, xK_s), spawn myEditor)
+    , ((myModMask .|. shiftMask, xK_d), spawn myPiracy)
+    , ((myModMask .|. shiftMask, xK_M), spawn myMusic)
   ]
 
 {-
@@ -261,9 +306,12 @@ myKeyBindings =
 
 myManagementHooks :: [ManageHook]
 myManagementHooks = [
-  resource =? "synapse" --> doIgnore
+
+  isFullscreen --> myDoFullFloat
+  ,resource =? "synapse" --> doIgnore
   , resource =? "stalonetray" --> doIgnore
   , className =? "nitrogen" --> doFloat
+  , className =? "Guake" --> doFloat
 {--  , className =? "rdesktop" --> doFloat
   , (className =? "Komodo IDE") --> doF (W.shift "5:Dev")
   , (className =? "Komodo IDE" <&&> resource =? "Komodo_find2") --> doFloat
@@ -273,6 +321,9 @@ myManagementHooks = [
   , (className =? "Gimp-2.8") --> doF (W.shift "9:Pix")
   ]
 
+-- this enables to cover xmobar without pressing ctrl b
+myDoFullFloat :: ManageHook
+myDoFullFloat = doF W.focusDown <+> doFullFloat
 
 {-
   Workspace navigation keybindings. This is probably the part of the
@@ -351,6 +402,8 @@ main = do
   , layoutHook = myLayouts
   , workspaces = myWorkspaces
   , modMask = myModMask
+  , XMonad.focusFollowsMouse  = myFocusFollowsMouse
+  , XMonad.clickJustFocuses   = myClickJustFocuses
   , handleEventHook = fullscreenEventHook
   , startupHook = do
       setWMName "LG3D"

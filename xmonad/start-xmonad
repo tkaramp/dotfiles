@@ -97,6 +97,9 @@ stalonetray \
   --window-strut none \
 &
 
+# screensaver
+xscreensaver -no-splash &
+
 # Run the gnome-keyring-daemon to avoid issues you otherwise may encounter
 # when using gnome applications which expect access to the keyring, such
 # as Empathy. This prevents prompts you may otherwise get for invalid
