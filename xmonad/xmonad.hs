@@ -36,8 +36,19 @@ import XMonad.Layout.Spacing		--		insert gap between windows
 
 import XMonad.Actions.CycleWS      	--		general workspace-switching
                                    	--      goodness
+import XMonad.Actions.Search hiding (Query, images)
+									--		some predefined web searches
 
 -- Prompts ---------------------------------------------------
+import XMonad.Prompt                -- (23) general prompt stuff.
+import XMonad.Prompt.Man            -- (24) man page prompt
+import XMonad.Prompt.AppendFile     -- (25) append stuff to my NOTES file
+import XMonad.Prompt.Ssh            -- (26) ssh prompt
+import XMonad.Prompt.Input          -- (26) generic input prompt, used for
+                                    --      making more generic search
+                                    --      prompts than those in
+                                    --      XMonad.Prompt.Search
+
 
 
 -- Utilities -------------------------------------------------
@@ -45,6 +56,7 @@ import XMonad.Actions.CycleWS      	--		general workspace-switching
 import XMonad.Util.Run				--		for 'spawnPipe', 'hPutStrLn'
 import XMonad.Util.EZConfig			--		"M-C-x" style keybindings
 import XMonad.Util.WindowProperties
+import XMonad.Util.NamedScratchpad  --		'scratchpad' terminal
 
 import Data.Ratio ((%))
 
@@ -246,25 +258,41 @@ myLayouts =
 -}
 
 myKeyBindings =
-  [
-    ((myModMask, xK_b), sendMessage ToggleStruts)
-    , ((myModMask, xK_a), sendMessage MirrorShrink)
-    , ((myModMask, xK_z), sendMessage MirrorExpand)
+	[
+		((myModMask, xK_b), sendMessage ToggleStruts)
+		, ((myModMask, xK_a), sendMessage MirrorShrink)
+		, ((myModMask, xK_z), sendMessage MirrorExpand)
 
-    , ((myModMask, xK_u), focusUrgent)
-    , ((0, xK_F7), spawn "amixer -q set Master toggle")
-    , ((0, xK_F8), spawn "amixer -q set Master 10%-")
-    , ((0, xK_F9), spawn "amixer -q set Master 10%+")
---    , ((0, xK_F5), spawn "xbacklight -dec 10")
---    , ((0, xK_F6), spawn "xbacklight -inc 10")
-    , ((myModMask .|. shiftMask, xK_b), spawn myBrowser)
-    , ((myModMask .|. shiftMask, xK_T), spawn myEmail)
-    , ((myModMask .|. shiftMask, xK_f), spawn myFileMan)
---    , ((myModMask .|. shiftMask, xK_s), spawn myEditor)
-    , ((myModMask .|. shiftMask, xK_d), spawn myPiracy)
-    , ((myModMask .|. shiftMask, xK_M), spawn myMusic)
-  ]
-
+		, ((myModMask, xK_u), focusUrgent)
+		, ((0, xK_F7), spawn "amixer -q set Master toggle")
+		, ((0, xK_F8), spawn "amixer -q set Master 10%-")
+		, ((0, xK_F9), spawn "amixer -q set Master 10%+")
+		--    , ((0, xK_F5), spawn "xbacklight -dec 10")
+		--    , ((0, xK_F6), spawn "xbacklight -inc 10")
+		, ((myModMask .|. shiftMask, xK_b), spawn myBrowser)
+		, ((myModMask .|. shiftMask, xK_T), spawn myEmail)
+		, ((myModMask .|. shiftMask, xK_f), spawn myFileMan)
+		--    , ((myModMask .|. shiftMask, xK_s), spawn myEditor)
+		, ((myModMask .|. shiftMask, xK_d), spawn myPiracy)
+		, ((myModMask .|. shiftMask, xK_M), spawn myMusic)
+		  -- in conjunction with manageHook, open a small temporary
+		  -- floating terminal
+		, ((myModMask .|. shiftMask, xK_h), scratchTop)
+		, ((myModMask .|. shiftMask, xK_s), scratchMixer)
+		, ((0, xK_F12), scratchTerm)
+		-- man page prompt
+		--, ((myModMask, xK_Insert), manPrompt myXPConfig)                           -- (24)
+		-- add single lines to my NOTES file from a prompt.       -- (25)
+		, ((myModMask, xK_Insert), appendFilePrompt myXPConfig "/home/thomas/Documents/notes")
+		-- shell prompt.
+		--, ((myModMask, xK_Insert), sshPrompt myXPConfig)                         -- (26)
+	]
+	where
+           -- this simply means "find the scratchpad in myScratchPads that is 
+           -- named terminal and launch it"
+           scratchTerm  = namedScratchpadAction myScratchPads "term"
+           scratchMixer = namedScratchpadAction myScratchPads "mixer"
+           scratchTop = namedScratchpadAction myScratchPads "htop"
 {-
   Management hooks. You can use management hooks to enforce certain
   behaviors when specific programs or windows are launched. This is
@@ -304,22 +332,83 @@ myKeyBindings =
       editing images.
 -}
 
-myManagementHooks :: [ManageHook]
-myManagementHooks = [
+-- Set up a customized manageHook (rules for handling windows on
+--   creation)
 
-  isFullscreen --> myDoFullFloat
-  ,resource =? "synapse" --> doIgnore
-  , resource =? "stalonetray" --> doIgnore
-  , className =? "nitrogen" --> doFloat
-  , className =? "Guake" --> doFloat
-{--  , className =? "rdesktop" --> doFloat
-  , (className =? "Komodo IDE") --> doF (W.shift "5:Dev")
-  , (className =? "Komodo IDE" <&&> resource =? "Komodo_find2") --> doFloat
-  , (className =? "Komodo IDE" <&&> resource =? "Komodo_gotofile") --> doFloat
-  , (className =? "Komodo IDE" <&&> resource =? "Toplevel") --> doFloat--}
-  , (className =? "Pidgin") --> doF (W.shift "7:Chat")
-  , (className =? "Gimp-2.8") --> doF (W.shift "9:Pix")
-  ]
+
+-- some nice colors for the prompt windows to match the dzen status bar.
+myXPConfig = defaultXPConfig                                    -- (23)
+    { fgColor = "#a8a3f7"
+    , bgColor = "#3f3c6d"
+    }
+
+-- Scratchpads -----------------------------------------------------
+
+scratchpadSize = W.RationalRect (1/4) (1/4) (1/2) (1/2)
+      where
+        -- reusing these variables is ok since they're confined to their own 
+        -- where clauses 
+        h = 1/4       -- height, 10% 
+        w = 1/4         -- width, 100%
+        t = 1/2     -- bottom edge
+        l = 1/2 -- centered left/right
+mySPFloat = customFloating $ scratchpadSize
+niceRect x y = W.RationalRect x y (1-2*x) (1-2*y)
+
+myScratchPads = [ NS "term" spawnTerm findTerm manageTerm
+				, NS "htop" "terminator -T htop -e htop" (title =? "htop") manageTerm
+				, NS "mixer" "terminator -T mixer -e alsamixer" (title =? "mixer") manageTerm
+                ]
+  where
+    spawnTerm  = "terminator" ++ " -T scratchpad"       		-- launch my terminal
+    findTerm   = title  =? "scratchpad"               			-- its window will be named "scratchpad" (see above)
+    manageTerm = customFloating $ niceRect (1/5) (1/4)			-- and I'd like it fixed using the geometry above
+
+myIgnores       = ["synapse", "stalonetray"]
+myFloatsC = ["Save As...","Downloads"]
+myFloats        = ["nitrogen"]
+myManageHook :: ManageHook
+
+myManageHook = composeAll $
+	[
+		isFullscreen --> myDoFullFloat
+		,	isDialog --> doCenterFloat
+	]
+
+	++
+
+	[
+		resource    =? r                 --> doIgnore | r <- myIgnores
+	]
+   
+	++
+
+	[
+		className   =? c                 --> doFloat | c <- myFloats
+		--className =? "nitrogen" --> doFloat
+	]
+
+	++
+
+	[
+		className    =? c     --> doCenterFloat  |   c   <- myFloatsC
+		--className =? "nitrogen" --> doFloat
+	]
+
+	++
+
+	[
+		(className =? "Pidgin") --> doF (W.shift "4:Chat")
+		, (className =? "ViberPC") --> doF (W.shift "4:Chat")
+		, (className =? "Gimp-2.8") --> doF (W.shift "9:Pix")
+	]
+	
+	++
+
+	[
+		namedScratchpadManageHook myScratchPads
+	]
+
 
 -- this enables to cover xmobar without pressing ctrl b
 myDoFullFloat :: ManageHook
@@ -406,11 +495,13 @@ main = do
   , XMonad.clickJustFocuses   = myClickJustFocuses
   , handleEventHook = fullscreenEventHook
   , startupHook = do
-      setWMName "LG3D"
+      setWMName "LG3D" 	--	required for JAVA (e.g. jdownloader). without
+                     	--	it menues and clicks and window drawing
+                     	--	according to window size do not work
       windows $ W.greedyView startupWorkspace
       spawn "~/.xmonad/startup-hook"
   , manageHook = manageHook defaultConfig
-      <+> composeAll myManagementHooks
+      <+> myManageHook
       <+> manageDocks
   , logHook = 
 --myLogHook >>
@@ -424,6 +515,11 @@ main = do
       , ppUrgent = xmobarColor myUrgentWSColor ""
         . wrap myUrgentWSLeft myUrgentWSRight
     }
+--		where 
+  			-- then define it down here: if the workspace is NSP then print
+    		-- nothing, else print it as-is
+--    		noScratchPad ws = if ws == "NSP" then "" else ws
+
   }
     `additionalKeys` myKeys
 
