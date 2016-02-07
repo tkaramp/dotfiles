@@ -7,3 +7,6 @@
 [submodule "nano/highlights"]
 	path = nano/highlights
 	url = https://github.com/scopatz/nanorc.git
+[submodule "xmonad-ubuntu"]
+	path = xmonad-ubuntu
+	url = https://github.com/tkaramp/xmonad-ubuntu-conf.git

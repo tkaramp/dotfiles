@@ -98,7 +98,7 @@ stalonetray \
 &
 
 # screensaver
-xscreensaver -no-splash &
+#xscreensaver -no-splash &
 
 # Run the gnome-keyring-daemon to avoid issues you otherwise may encounter
 # when using gnome applications which expect access to the keyring, such

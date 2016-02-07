@@ -338,8 +338,8 @@ myKeyBindings =
 
 -- some nice colors for the prompt windows to match the dzen status bar.
 myXPConfig = defaultXPConfig                                    -- (23)
-    { fgColor = "#a8a3f7"
-    , bgColor = "#3f3c6d"
+    { fgColor = "#cccccc"
+    , bgColor = "#154D83"
     }
 
 -- Scratchpads -----------------------------------------------------
@@ -481,7 +481,43 @@ myKeys = myKeyBindings {--++
 	`And` (Not (ClassName "Gcolor2"))))
 myLogHook = fadeInactiveLogHook' 0.8--}
 
+myLogHook h = dynamicLogWithPP $ defaultPP
+
+    -- display current workspace as darkgrey on light grey (opposite of 
+    -- default colors)
+    { ppCurrent         = dzenColor "#303030" "#909090" . pad 
+
+  , ppHidden          = dzenColor "#909090" "#606060" . pad . noScratchPad -- haskell makes it so easy,
+  , ppHiddenNoWindows = noScratchPad                                -- just tack on another function
+
+    -- display the current layout as a brighter grey
+    , ppLayout          = dzenColor "#909090" "" . pad 
+
+    -- if a window on a hidden workspace needs my attention, color it so
+    , ppUrgent          = dzenColor "#ff0000" "" . pad . dzenStrip
+
+    -- shorten if it goes over 100 characters
+    , ppTitle           = shorten 100
+
+    -- no separator between workspaces
+    , ppWsSep           = ""
+
+    -- put a few spaces between each object
+    , ppSep             = "  "
+
+    -- output to the handle we were given as an argument
+    , ppOutput          = hPutStrLn h
+    }
+	where
+		-- then define it down here: if the workspace is NSP then print
+		-- nothing, else print it as-is
+		noScratchPad ws = if ws == "NSP" then "" else ws
+
+
 main = do
+  --d <- spawnPipe "dzen2 -p -w 5 -ta l -e 'onstart=lower'"
+  --spawn $ "conky -c ~/.xmonad/data/conky/dzen | " ++
+  --             "dzen2 -p -xs 0 ta -r -e 'onstart=lower'"
   xmproc <- spawnPipe "xmobar ~/.xmonad/xmobarrc"
   xmonad $ withUrgencyHook NoUrgencyHook $ defaultConfig {
     focusedBorderColor = myFocusedBorderColor
@@ -504,6 +540,7 @@ main = do
       <+> myManageHook
       <+> manageDocks
   , logHook = 
+--myLogHook d
 --myLogHook >>
       takeTopFocus <+> dynamicLogWithPP xmobarPP {
       ppOutput = hPutStrLn xmproc
