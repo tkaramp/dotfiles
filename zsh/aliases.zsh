@@ -96,3 +96,5 @@ alias wget='wget -c'
 alias pid='ps -aux | grep'
 
 alias mterm='/opt/madis/src/mterm.py' 
+
+alias xp='xprop | grep "WM_WINDOW_ROLE\|WM_CLASS" && echo "WM_CLASS(STRING) = \"NAME\", \"CLASS\""'

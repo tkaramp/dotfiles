@@ -275,6 +275,7 @@ myKeyBindings =
 		--    , ((myModMask .|. shiftMask, xK_s), spawn myEditor)
 		, ((myModMask .|. shiftMask, xK_d), spawn myPiracy)
 		, ((myModMask .|. shiftMask, xK_M), spawn myMusic)
+		, ((myModMask, xK_p), spawn "synapse")
 		  -- in conjunction with manageHook, open a small temporary
 		  -- floating terminal
 		, ((myModMask .|. shiftMask, xK_h), scratchTop)
@@ -400,6 +401,7 @@ myManageHook = composeAll $
 	[
 		(className =? "Pidgin") --> doF (W.shift "4:Chat")
 		, (className =? "ViberPC") --> doF (W.shift "4:Chat")
+		, (className =? "jetbrains-idea") --> doF (W.shift "1:Dev")
 		, (className =? "Gimp-2.8") --> doF (W.shift "9:Pix")
 	]
 	
