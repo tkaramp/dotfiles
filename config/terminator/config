@@ -1,35 +1,24 @@
 [global_config]
   enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
-  title_transmit_fg_color = "#98d1ce"
-  title_inactive_fg_color = "#98d1ce"
-  borderless = True
-  title_receive_bg_color = "#33859d"
-  title_transmit_bg_color = "#093748"
-  title_receive_fg_color = "#98d1ce"
   geometry_hinting = False
   inactive_color_offset = 0.64
-  title_inactive_bg_color = "#062835"
+  borderless = True
+[keybindings]
+[profiles]
   [[default]]
-    scrollbar_position = hidden
-    palette = "#0a0f14:#c33027:#26a98b:#edb54b:#195465:#4e5165:#33859d:#98d1ce:#10151b:#d26939:#081f2d:#245361:#093748:#888ba5:#599caa:#d3ebe9"
-    login_shell = True
-    use_system_font = False
-    background_darkness = 0.94
-    scrollback_lines = 5000
-    active_encodings = ANSI_X3.4-1968, UTF-8, ISO-8859-1
-    cursor_color = "#7b7b7b"
-    foreground_color = "#98d1ce"
+#   palette = "#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:#cd00cd:#2efefe:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:#c825d6:#00ffff:#ffffff"
+    palette = "#202020:#5d1a14:#424e24:#6f5028:#263e4e:#3e1f50:#234e3f:#979797:#555555:#da4939:#a5c261:#ffc66d:#6d9cbe:#a256c7:#62c1a1:#ffffff"
     background_image = None
-    font = Droid Sans Mono 7
-    background_color = "#0a0f14"
-    allow_bold = False
+    background_darkness = 0.9
+    background_type = transparent
+    use_system_font = False
     show_titlebar = False
+    font = DejaVu Sans Mono Bold 11
 [layouts]
   [[default]]
     [[[child1]]]
       type = Terminal
       parent = window0
-      profile = default
     [[[window0]]]
       type = Window
       parent = ""

@@ -79,6 +79,7 @@ myIMRosterTitle      = "Buddy List"   -- title of roster on IM workspace
 myBrowser = "google-chrome"
 myEmail    = "thundbird"
 myFileMan  = "nautilus"
+myVolumeControl = "pavucontrol"
 --myEditor   = "sublime-text"
 myPiracy   = "transmission-gtk"
 myMusic    = "spotify"
@@ -218,7 +219,10 @@ videoLayout = noBorders (fullscreenFull Full)
 -- identified using the myIMRosterTitle variable, and by default is
 -- configured for Pidgin, so if you're using something else you
 -- will want to modify that variable.
-chatLayout = avoidStruts(spacing 5 (withIM (1%7) (Title myIMRosterTitle) Grid))
+--chatLayout = avoidStruts(spacing 5 (withIM (1%7) (Title myIMRosterTitle) Grid))
+gridLayout = spacing 5 $ Grid      
+chatLayout = avoidStruts(withIM (18/100) (Role "buddy_list") gridLayout)
+
 
 -- The GIMP layout uses the ThreeColMid layout. The traditional GIMP
 -- floating panels approach is a bit of a challenge to handle with xmonad;
@@ -274,12 +278,13 @@ myKeyBindings =
 		, ((myModMask .|. shiftMask, xK_f), spawn myFileMan)
 		--    , ((myModMask .|. shiftMask, xK_s), spawn myEditor)
 		, ((myModMask .|. shiftMask, xK_d), spawn myPiracy)
-		, ((myModMask .|. shiftMask, xK_M), spawn myMusic)
+		, ((myModMask .|. shiftMask, xK_m), spawn myMusic)
 		, ((myModMask, xK_p), spawn "synapse")
+		, ((myModMask .|. shiftMask, xK_s), spawn myVolumeControl)
 		  -- in conjunction with manageHook, open a small temporary
 		  -- floating terminal
 		, ((myModMask .|. shiftMask, xK_h), scratchTop)
-		, ((myModMask .|. shiftMask, xK_s), scratchMixer)
+--		, ((myModMask .|. shiftMask, xK_s), scratchMixer)
 		, ((0, xK_F12), scratchTerm)
 		-- man page prompt
 		--, ((myModMask, xK_Insert), manPrompt myXPConfig)                           -- (24)
@@ -292,7 +297,7 @@ myKeyBindings =
            -- this simply means "find the scratchpad in myScratchPads that is 
            -- named terminal and launch it"
            scratchTerm  = namedScratchpadAction myScratchPads "term"
-           scratchMixer = namedScratchpadAction myScratchPads "mixer"
+--           scratchMixer = namedScratchpadAction myScratchPads "mixer"
            scratchTop = namedScratchpadAction myScratchPads "htop"
 {-
   Management hooks. You can use management hooks to enforce certain
@@ -358,7 +363,7 @@ niceRect x y = W.RationalRect x y (1-2*x) (1-2*y)
 
 myScratchPads = [ NS "term" spawnTerm findTerm manageTerm
 				, NS "htop" "terminator -T htop -e htop" (title =? "htop") manageTerm
-				, NS "mixer" "terminator -T mixer -e alsamixer" (title =? "mixer") manageTerm
+--				, NS "mixer" "pavucontrol" (title =? "pavucontrol") manageTerm
                 ]
   where
     spawnTerm  = "terminator" ++ " -T scratchpad"       		-- launch my terminal
@@ -367,7 +372,7 @@ myScratchPads = [ NS "term" spawnTerm findTerm manageTerm
 
 myIgnores       = ["synapse", "stalonetray"]
 myFloatsC = ["Save As...","Downloads"]
-myFloats        = ["nitrogen"]
+myFloats        = ["nitrogen", "spotify"]
 myManageHook :: ManageHook
 
 myManageHook = composeAll $
@@ -399,9 +404,14 @@ myManageHook = composeAll $
 	++
 
 	[
-		(className =? "Pidgin") --> doF (W.shift "4:Chat")
+		(className =? "jetbrains-idea") --> doF (W.shift "1:Dev")
+		, (className =? "Pidgin") --> doF (W.shift "4:Chat")
 		, (className =? "ViberPC") --> doF (W.shift "4:Chat")
-		, (className =? "jetbrains-idea") --> doF (W.shift "1:Dev")
+		, (className =? "Skype") --> doF (W.shift "4:Chat")
+		, (className =? "Thunderbird") --> doF (W.shift "5:Mail")
+		, (className =? "Kodi") --> doF (W.shift "7:Video")
+		, (className =? "Popcorn Time") --> doF (W.shift "7:Video")
+		, (className =? "Spotify") --> doF (W.shift "8:Music")
 		, (className =? "Gimp-2.8") --> doF (W.shift "9:Pix")
 	]
 	

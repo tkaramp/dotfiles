@@ -51,7 +51,7 @@ compton &
 # to the left of the primary screen.
 #xrandr | grep 'HDMI-0 connected' | ifne xrandr --output HDMI-0 --auto --right-of LVDS
 
-xrandr | grep 'HDMI-0 connected' | ifne xrandr --output HDMI-0 --primary
+xrandr | grep 'HDMI1 connected' | ifne xrandr --output HDMI1 --primary
 
 
 #
@@ -88,14 +88,17 @@ nitrogen --restore &
 #
 stalonetray \
   --icon-gravity E \
-  --geometry 5x1-0+0 \
-  --max-geometry 5x1-0+0 \
+  --geometry 10x1-0+0 \
+  --max-geometry 10x1-0+0 \
   --background '#000000' \
   --skip-taskbar \
   --icon-size 24 \
   --kludges force_icons_size \
   --window-strut none \
 &
+
+#volume control
+volti &
 
 # screensaver
 #xscreensaver -no-splash &

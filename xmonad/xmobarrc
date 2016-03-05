@@ -22,7 +22,7 @@ Config {
   -- of your screen to make it play nicely with stalonetray, which we
   -- want to be taking up the remainer of the space on the right side
   -- of your screen.
-  position = TopW L 95, 
+  position = TopW L 88, 
 
   -- list of commands which gather information about your system for
   -- presentation in the bar. 
@@ -75,7 +75,7 @@ Config {
 
    -- Overall template for the layout of the xmobar contents. Note that
    -- space is significant and can be used to add padding.
-   template = "%StdinReader% }{ %battery% | %cpu% | %memory% | <fc=#2E9AFE>Vol:</fc> %myvolume%    <fc=#e6744c>%date%</fc>     "
+   template = "%StdinReader% }{ %battery% | %cpu% | %memory%   <fc=#e6744c>%date%</fc>     "
 }
 
 
