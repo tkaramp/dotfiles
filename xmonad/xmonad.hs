@@ -83,6 +83,8 @@ myVolumeControl = "pavucontrol"
 --myEditor   = "sublime-text"
 myPiracy   = "transmission-gtk"
 myMusic    = "spotify"
+myScreenshooter = "scrot -e 'mv $f ~/screenshots/'"
+myControledScreenshooter = "sleep 0.2; " ++ myScreenshooter ++ " -s"
 
 -- window border customization
 --"#154D83" --"#2E9AFE"
@@ -221,8 +223,15 @@ videoLayout = noBorders (fullscreenFull Full)
 -- will want to modify that variable.
 --chatLayout = avoidStruts(spacing 5 (withIM (1%7) (Title myIMRosterTitle) Grid))
 gridLayout = spacing 5 $ Grid      
-chatLayout = avoidStruts(withIM (18/100) (Role "buddy_list") gridLayout)
+--chatLayout = avoidStruts(withIM (18/100) (Role "MainWindow") gridLayout)
+-- Another IM layout, for use with Skype.
+--skypeLayout = withIM (1/6) skypeMainWindow Grid
+--skypeMainWindow = (And (Resource "skype")(Not (Or (Title "Transferts de fichiers")(Role "ConversationsWindow"))))
+--skypeLayout = withIM (1/6) skypeMainWindow Grid
+--skypeMainWindow = (And (Resource "skype")(Not (Or (Title "Transferts de fichiers")(Role "ConversationsWindow"))))
+skypeLayout = avoidStruts(spacing 5 $ withIM (1%7) skypeRoster gridLayout)
 
+skypeRoster     = (ClassName "Skype") `And` (Not (Title "Options")) `And` (Not (Role "ConversationsWindow")) `And` (Not (Role "CallWindow"))
 
 -- The GIMP layout uses the ThreeColMid layout. The traditional GIMP
 -- floating panels approach is a bit of a challenge to handle with xmonad;
@@ -235,7 +244,7 @@ gimpLayout = smartBorders(avoidStruts(spacing 5 (ThreeColMid 1 (3/100) (3/4))))
 -- Here we combine our default layouts with our specific, workspace-locked
 -- layouts.
 myLayouts =
-  onWorkspace "4:Chat" chatLayout
+  onWorkspace "4:Chat" skypeLayout
   $ onWorkspace "9:Pix" gimpLayout
   $ onWorkspace "7:Video" videoLayout
   $ defaultLayouts
@@ -281,6 +290,7 @@ myKeyBindings =
 		, ((myModMask .|. shiftMask, xK_m), spawn myMusic)
 		, ((myModMask, xK_p), spawn "synapse")
 		, ((myModMask .|. shiftMask, xK_s), spawn myVolumeControl)
+		, ((noModMask, xK_Print), spawn myScreenshooter)
 		  -- in conjunction with manageHook, open a small temporary
 		  -- floating terminal
 		, ((myModMask .|. shiftMask, xK_h), scratchTop)
@@ -372,7 +382,7 @@ myScratchPads = [ NS "term" spawnTerm findTerm manageTerm
 
 myIgnores       = ["synapse", "stalonetray"]
 myFloatsC = ["Save As...","Downloads"]
-myFloats        = ["nitrogen", "spotify"]
+myFloats        = ["nitrogen", "Spotify"]
 myManageHook :: ManageHook
 
 myManageHook = composeAll $
