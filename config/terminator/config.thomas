@@ -3,6 +3,7 @@
   geometry_hinting = False
   inactive_color_offset = 0.64
   borderless = True
+  scrollbar_position=hidden
 [keybindings]
 [profiles]
   [[default]]
