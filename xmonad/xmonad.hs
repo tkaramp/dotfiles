@@ -414,7 +414,8 @@ myManageHook = composeAll $
 	++
 
 	[
-		(className =? "jetbrains-idea") --> doF (W.shift "1:Dev")
+		(className =? "jetbrains-idea-ce") --> doF (W.shift "1:Dev")
+		, (className =? "google-chrome") -->doF (W.shift "3:Web")
 		, (className =? "Pidgin") --> doF (W.shift "4:Chat")
 		, (className =? "ViberPC") --> doF (W.shift "4:Chat")
 		, (className =? "Skype") --> doF (W.shift "4:Chat")
