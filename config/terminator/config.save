@@ -1,0 +1,27 @@
+[global_config]
+  borderless = True
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  geometry_hinting = False
+  inactive_color_offset = 0.64
+  borderless = True
+  scrollbar_position=hidden
+[keybindings]
+[profiles]
+  [[default]]
+    palette = "#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:#cd00cd:#2efefe:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:#c825d6:#00ffff:#ffffff"
+    background_image = None
+    background_darkness = 0.8
+    background_type = transparent
+    use_system_font = False
+    cursor_color = "#839496"
+    show_titlebar = False
+    font = DejaVu Sans Mono Bold 11
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+    [[[window0]]]
+      type = Window
+      parent = ""
+[plugins]

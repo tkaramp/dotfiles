@@ -3,13 +3,13 @@
   geometry_hinting = False
   inactive_color_offset = 0.64
   borderless = True
-  scrollbar_position=hidden
 [keybindings]
 [profiles]
   [[default]]
-    palette = "#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:#cd00cd:#2efefe:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:#c825d6:#00ffff:#ffffff"
+#   palette = "#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:#cd00cd:#2efefe:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:#c825d6:#00ffff:#ffffff"
+    palette = "#202020:#5d1a14:#424e24:#6f5028:#263e4e:#3e1f50:#234e3f:#979797:#555555:#da4939:#a5c261:#ffc66d:#6d9cbe:#a256c7:#62c1a1:#ffffff"
     background_image = None
-    background_darkness = 0.8
+    background_darkness = 0.9
     background_type = transparent
     use_system_font = False
     show_titlebar = False

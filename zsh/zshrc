@@ -23,6 +23,7 @@ setopt RM_STAR_WAIT
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
+export CHEATCOLORS=true
 
 # allows you to type Bash style comments on your command line
 # good 'ol Bash
