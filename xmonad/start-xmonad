@@ -17,11 +17,14 @@ export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 # Load X resources (fixes some font issues)
 xrdb -merge .Xresources
 
+xsetroot -cursor_name left_ptr
+
 # Start compositing to support transparency. You can omit this
 # if you prefer not to use any transparency, but it is likely to cause
 # ugly black fringing with some programs such as synapse that expect
 # transparency support.
 #xcompmgr -n &
+#compton -c -C -r 5 -l -8 -t -8 -m 0.95 -G -D 15 --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc &
 compton &
 
 #
@@ -61,6 +64,11 @@ xrandr | grep 'HDMI1 connected' | ifne xrandr --output HDMI1 --primary
 # To set your backgrounds, run nitrogren /path/to/images
 nitrogen --restore &
 
+# sets the Energy Star feature to On and sets it to wait 10 minutes of inactivity to turn off the screens.
+xset dpms 600 &
+# will also wait 10 minutes of inactivity before launching the screenlocker
+xautolock -time 5 -locker "/opt/i3lock-fancy/lock -pf Comic-Sans-MS -- scrot -z" &
+
 
 #
 # STARTUP ICON TRAY
@@ -86,19 +94,21 @@ nitrogen --restore &
 # - window-strut "none" means windows are allowed to cover the tray. In
 #   other words, trust xmonad to handle this part.
 #
-stalonetray \
-  --icon-gravity E \
-  --geometry 10x1-0+0 \
-  --max-geometry 10x1-0+0 \
-  --background '#000000' \
-  --skip-taskbar \
-  --icon-size 24 \
-  --kludges force_icons_size \
-  --window-strut none \
-&
+stalonetray &
+#\
+#  --icon-gravity E \
+#
+#  --geometry 10x1-0+0 \
+#  --max-geometry 10x1-0+0 \
+#  --background '#000000' \
+#  --skip-taskbar \
+#  --icon-size 24 \
+#  --kludges force_icons_size \
+#  --window-strut none \
+#&
 
 #volume control
-volti &
+#volti &
 
 # screensaver
 #xscreensaver -no-splash &

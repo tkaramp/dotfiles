@@ -1,0 +1,27 @@
+#pcm.!default{
+#        type hw
+#        card 0
+#        device 3
+#	subdevice 0
+#}
+
+pcm.!default{
+type plug
+slave.pcm "hdmivol"
+}
+
+pcm.hdmi-playback{
+type hw
+card 0
+device 3
+}
+
+pcm.hdmivol{
+type softvol
+slave.pcm "hdmi-playback"
+control {
+    name "Master"
+    card 0
+ }
+}
+

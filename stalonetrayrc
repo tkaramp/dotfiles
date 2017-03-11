@@ -1,0 +1,10 @@
+background "#2d2d2d"
+geometry 10x1-550+0
+grow_gravity W
+icon_gravity E
+icon_size 22
+kludges force_icons_size,use_icons_hints
+sticky yes
+skip_taskbar yes
+window_layer top
+#transparent true

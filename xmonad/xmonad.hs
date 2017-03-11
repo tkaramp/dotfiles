@@ -57,6 +57,7 @@ import XMonad.Util.Run				--		for 'spawnPipe', 'hPutStrLn'
 import XMonad.Util.EZConfig			--		"M-C-x" style keybindings
 import XMonad.Util.WindowProperties
 import XMonad.Util.NamedScratchpad  --		'scratchpad' terminal
+import XMonad.Util.WorkspaceCompare(getSortByTag, getSortByXineramaPhysicalRule)
 
 import Data.Ratio ((%))
 
@@ -107,17 +108,35 @@ myClickJustFocuses = True
   of text which xmonad is sending to xmobar via the DynamicLog hook.
 -}
 
-myTitleColor     = "black"  -- color of window title
-myTitleLength    = 80         -- truncate window title to this length
-myCurrentWSColor = "#2E9AFE"  -- color of active workspace
+--myTitleColor     = "black"  -- color of window title
+--myTitleLength    = 80         -- truncate window title to this length
+--myCurrentWSColor = "#2E9AFE"  -- color of active workspace
 myVisibleWSColor = "#c185a7"  -- color of inactive workspace
-myUrgentWSColor  = "#cc0000"  -- color of workspace with 'urgent' window
-myCurrentWSLeft  = "["        -- wrap active workspace with these
-myCurrentWSRight = "]"
-myVisibleWSLeft  = "("        -- wrap inactive workspace with these
-myVisibleWSRight = ")"
-myUrgentWSLeft  = "{"         -- wrap urgent workspace with these
-myUrgentWSRight = "}"
+--myUrgentWSColor  = "#cc0000"  -- color of workspace with 'urgent' window
+--myCurrentWSLeft  = "["        -- wrap active workspace with these
+--myCurrentWSRight = "]"
+--myVisibleWSLeft  = "("        -- wrap inactive workspace with these
+--myVisibleWSRight = ")"
+--myUrgentWSLeft  = "{"         -- wrap urgent workspace with these
+--myUrgentWSRight = "}"
+
+
+-- Visual settings used by e.g. dmenu
+myFont         = "xft:ProggyTiny:pixelsize=9"
+myBgColor      = "#1b1d1e"
+myFgColor      = "#bbbbbb"
+mySelFgColor   = "#ffffff"
+mySelBgColor   = "#333333"
+myBorderColor  = "#40464b"
+myFocusedColor = "#839cad"
+myCurrentColor = "#cd5c5c"
+myEmptyColor   = "#4c4c4c"
+myHiddenColor  = "#dddddd"
+myLayoutColor  = "#839cad"
+myUrgentColor  = "#2b9ac8"
+myTitleColor   = "#ffffff"
+myTitleLength    = 80         -- truncate window title to this length
+mySepColor     = "#58504c"
 
 {-
   Workspace configuration. Here you can change the names of your
@@ -277,18 +296,20 @@ myKeyBindings =
 		, ((myModMask, xK_z), sendMessage MirrorExpand)
 
 		, ((myModMask, xK_u), focusUrgent)
-		, ((0, xK_F7), spawn "amixer -q set Master toggle")
-		, ((0, xK_F8), spawn "amixer -q set Master 10%-")
-		, ((0, xK_F9), spawn "amixer -q set Master 10%+")
-		--    , ((0, xK_F5), spawn "xbacklight -dec 10")
-		--    , ((0, xK_F6), spawn "xbacklight -inc 10")
+		, ((0, xK_F7), spawn "amixer -q -D pulse sset Master toggle")
+		, ((0, xK_F8), spawn "amixer -q -D pulse sset Master 10%-")
+		, ((0, xK_F9), spawn "amixer -q -D pulse sset Master 10%+")
+		, ((0, xK_F5), spawn "xbacklight -dec 10")
+		, ((0, xK_F6), spawn "xbacklight -inc 10")
+		, ((0, xK_F11), spawn "/opt/i3lock-fancy/lock -pf Comic-Sans-MS -- scrot -z")
 		, ((myModMask .|. shiftMask, xK_b), spawn myBrowser)
 		, ((myModMask .|. shiftMask, xK_T), spawn myEmail)
 		, ((myModMask .|. shiftMask, xK_f), spawn myFileMan)
 		--    , ((myModMask .|. shiftMask, xK_s), spawn myEditor)
 		, ((myModMask .|. shiftMask, xK_d), spawn myPiracy)
 		, ((myModMask .|. shiftMask, xK_m), spawn myMusic)
-		, ((myModMask, xK_p), spawn "synapse")
+		--, ((myModMask, xK_p), spawn "synapse")
+		, ((myModMask, xK_p), spawn "rofi -show drun -modi drun,ssh,run")
 		, ((myModMask .|. shiftMask, xK_s), spawn myVolumeControl)
 		, ((noModMask, xK_Print), spawn myScreenshooter)
 		  -- in conjunction with manageHook, open a small temporary
@@ -322,8 +343,7 @@ myKeyBindings =
   command-line tool called "xprop". When you run xprop, your cursor
   will temporarily change to crosshairs; click on the window you
   want to identify. In the output that is printed in your terminal,
-  look for a couple of things:
-    - WM_CLASS(STRING): values in this list of strings can be compared
+  look for a couple of things: - WM_CLASS(STRING): values in this list of strings can be compared
       to "className" to match windows.
     - WM_NAME(STRING): this value can be compared to "resource" to match
       windows.
@@ -360,14 +380,19 @@ myXPConfig = defaultXPConfig                                    -- (23)
 
 -- Scratchpads -----------------------------------------------------
 
-scratchpadSize = W.RationalRect (1/4) (1/4) (1/2) (1/2)
+scratchpadSize = W.RationalRect (l) (t) (w) (h)
+--scratchpadSize = W.RationalRect (1/4) (1/4) (1/2) (1/2)
       where
         -- reusing these variables is ok since they're confined to their own 
         -- where clauses 
-        h = 1/4       -- height, 10% 
-        w = 1/4         -- width, 100%
-        t = 1/2     -- bottom edge
-        l = 1/2 -- centered left/right
+        h = 0.4       -- height, 40% 
+        w = 1         -- width, 100%
+        t = 1 - h     -- bottom edge
+        l = 1 - w -- centered left/right
+--        h = 1/4       -- height, 10% 
+--        w = 1/4         -- width, 100%
+--        t = 1/2     -- bottom edge
+--        l = 1/2 -- centered left/right
 mySPFloat = customFloating $ scratchpadSize
 niceRect x y = W.RationalRect x y (1-2*x) (1-2*y)
 
@@ -378,7 +403,8 @@ myScratchPads = [ NS "term" spawnTerm findTerm manageTerm
   where
     spawnTerm  = "terminator" ++ " -T scratchpad"       		-- launch my terminal
     findTerm   = title  =? "scratchpad"               			-- its window will be named "scratchpad" (see above)
-    manageTerm = customFloating $ niceRect (1/5) (1/4)			-- and I'd like it fixed using the geometry above
+    manageTerm = mySPFloat			-- and I'd like it fixed using the geometry above
+--    manageTerm = customFloating $ niceRect (1/5) (1/4)			-- and I'd like it fixed using the geometry above
 
 myIgnores       = ["synapse", "stalonetray"]
 myFloatsC = ["Save As...","Downloads"]
@@ -566,14 +592,26 @@ main = do
 --myLogHook d
 --myLogHook >>
       takeTopFocus <+> dynamicLogWithPP xmobarPP {
-      ppOutput = hPutStrLn xmproc
-      , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
-      , ppCurrent = xmobarColor myCurrentWSColor ""
-        . wrap myCurrentWSLeft myCurrentWSRight
-      , ppVisible = xmobarColor myVisibleWSColor ""
-        . wrap myVisibleWSLeft myVisibleWSRight
-      , ppUrgent = xmobarColor myUrgentWSColor ""
-        . wrap myUrgentWSLeft myUrgentWSRight
+        ppOutput = hPutStrLn xmproc
+	, ppCurrent = xmobarColor myCurrentColor ""
+        , ppHidden = xmobarColor myHiddenColor ""
+        , ppVisible = xmobarColor myVisibleWSColor ""
+--        , ppHiddenNoWindows = xmobarColor myEmptyColor ""
+        , ppUrgent = xmobarColor myUrgentColor "" . xmobarStrip
+        , ppLayout = xmobarColor myLayoutColor ""
+        , ppWsSep = "  "
+        , ppSep = xmobarColor mySepColor "" "   |   "
+        , ppTitle = xmobarColor myTitleColor "" . shorten 80 . trim
+        , ppSort            = fmap (namedScratchpadFilterOutWorkspace.) getSortByXineramaPhysicalRule
+--      ppOutput = hPutStrLn xmproc
+--      , ppTitle = xmobarColor myTitleColor "" . shorten myTitleLength
+--      , ppCurrent = xmobarColor myCurrentWSColor ""
+--        . wrap myCurrentWSLeft myCurrentWSRight
+--      , ppVisible = xmobarColor myVisibleWSColor ""
+--        . wrap myVisibleWSLeft myVisibleWSRight
+--      , ppUrgent = xmobarColor myUrgentWSColor ""
+--        . wrap myUrgentWSLeft myUrgentWSRight
+
     }
 --		where 
   			-- then define it down here: if the workspace is NSP then print
