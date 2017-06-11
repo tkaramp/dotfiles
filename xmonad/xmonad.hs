@@ -89,7 +89,7 @@ myControledScreenshooter = "sleep 0.2; " ++ myScreenshooter ++ " -s"
 
 -- window border customization
 --"#154D83" --"#2E9AFE"
-myFocusedBorderColor = "#1793D1" -- color of focused border
+myFocusedBorderColor = "#01a252" --"#226E1D" --"#1793D1" -- color of focused border
 myNormalBorderColor  = "#413F3B"      -- color of inactive border
 myBorderWidth        = 2              -- width of border around windows
 
@@ -110,7 +110,7 @@ myClickJustFocuses = True
 
 --myTitleColor     = "black"  -- color of window title
 --myTitleLength    = 80         -- truncate window title to this length
---myCurrentWSColor = "#2E9AFE"  -- color of active workspace
+--myCurrentWSColor = "#01a252"  -- color of active workspace
 myVisibleWSColor = "#c185a7"  -- color of inactive workspace
 --myUrgentWSColor  = "#cc0000"  -- color of workspace with 'urgent' window
 --myCurrentWSLeft  = "["        -- wrap active workspace with these
@@ -129,13 +129,13 @@ mySelFgColor   = "#ffffff"
 mySelBgColor   = "#333333"
 myBorderColor  = "#40464b"
 myFocusedColor = "#839cad"
-myCurrentColor = "#cd5c5c"
+myCurrentColor = "#01a252"--"#cd5c5c"
 myEmptyColor   = "#4c4c4c"
 myHiddenColor  = "#dddddd"
-myLayoutColor  = "#839cad"
-myUrgentColor  = "#2b9ac8"
+myLayoutColor  = "#b5e4f4"--"#839cad"
+myUrgentColor  = "#cd5c5c"--"#2b9ac8"
 myTitleColor   = "#ffffff"
-myTitleLength    = 80         -- truncate window title to this length
+myTitleLength    = 70         -- truncate window title to this length
 mySepColor     = "#58504c"
 
 {-
@@ -173,7 +173,7 @@ myWorkspaces =
     "0:Min",    "Extr1", "Extr2"
   ]
 
-startupWorkspace = "5:Dev"  -- which workspace do you want to be on after launch?
+startupWorkspace = "1:Dev"  -- which workspace do you want to be on after launch?
 
 {-
   Layout configuration. In this section we identify which xmonad
@@ -421,6 +421,7 @@ myManageHook = composeAll $
 
 	[
 		resource    =? r                 --> doIgnore | r <- myIgnores
+        --className =? "Workrave"       --> doIgnore
 	]
    
 	++
@@ -440,14 +441,15 @@ myManageHook = composeAll $
 	++
 
 	[
-		(className =? "jetbrains-idea-ce") --> doF (W.shift "1:Dev")
-		, (className =? "google-chrome") -->doF (W.shift "3:Web")
+		(className =? "jetbrains-idea") --> doF (W.shift "1:Dev")
+		, (className =? "Google-chrome") -->doF (W.shift "3:Web")
+		, (className =? "Transmission-gtk") -->doF (W.shift "5:Files")
+		, (className =? "Nautilus") -->doF (W.shift "5:Files")
 		, (className =? "Pidgin") --> doF (W.shift "4:Chat")
 		, (className =? "ViberPC") --> doF (W.shift "4:Chat")
 		, (className =? "Skype") --> doF (W.shift "4:Chat")
 		, (className =? "Thunderbird") --> doF (W.shift "5:Mail")
 		, (className =? "Kodi") --> doF (W.shift "7:Video")
-		, (className =? "Popcorn Time") --> doF (W.shift "7:Video")
 		, (className =? "Spotify") --> doF (W.shift "8:Music")
 		, (className =? "Gimp-2.8") --> doF (W.shift "9:Pix")
 	]
