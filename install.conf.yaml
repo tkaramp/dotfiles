@@ -1,16 +1,6 @@
 - clean: ['~', '~/.config']
 
 - link:
-    ~/.config/autostart:
-      create: true
-      path: config/autostart/
-    # Z shell.
-    ~/.zprezto: prezto
-    # We don't change these.
-    ~/.zlogin: prezto/runcoms/zlogin
-    ~/.zlogout: prezto/runcoms/zlogout
-    ~/.zprofile: prezto/runcoms/zprofile
-    ~/.zshenv: prezto/runcoms/zshenv
     # Our customizations.
     ~/.zshrc:
         path: zsh/zshrc
@@ -26,7 +16,6 @@
     ~/.gitignore_global: git/gitignore_global
     # Others
     ~/.axelrc: axelrc
-    ~/.dotfiles: ''
     ~/.emacs: emacs/emacs
     ~/.Xdefaults: Xdefaults
 
