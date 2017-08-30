@@ -84,7 +84,8 @@ setopt inc_append_history
 ##To retrieve the history file everytime history is called upon.
 setopt share_history
 
-export PATH=$PATH:/usr/lib/jvm/jdk1.8.0_121/bin/
+export JAVA_HOME="/usr/lib/jvm/jdk1.8.0_121/"
+export PATH=$PATH:$JAVA_HOME/bin
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/home/tkaramp/.sdkman"
