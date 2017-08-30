@@ -110,6 +110,8 @@ stalonetray &
 #volume control
 #volti &
 
+workrave &
+
 # screensaver
 #xscreensaver -no-splash &
 

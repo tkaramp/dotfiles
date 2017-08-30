@@ -37,7 +37,7 @@ rofi.separator-style:                dash*/
 
 
 /* rofi */
-rofi.font:            Iosevka Term Slab 20
+rofi.font:            Anonymice Powerline #Iosevka Term Slab 20
 rofi.terminal:        terminator
 rofi.columns:         1
 rofi.eh:              1
@@ -55,3 +55,5 @@ rofi.color-normal: bg, fg, bg, bg, cyn
 rofi.color-urgent: bg, fg, bg, bg, blu
 rofi.color-active: bg, fg, bg, bg, grn
 rofi.color-window: bg, bblk, bblk
+
+

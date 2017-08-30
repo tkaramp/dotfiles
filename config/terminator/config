@@ -20,9 +20,14 @@
     background_image = None
     background_type = transparent
     cursor_color = "#afc4db"  # "#839496"
-    font = DejaVu Sans Mono Bold 12
+    font = Pragmata Pro for Powerline Bold 12
+#    font = Source Code Pro for Powerline Bold 14
+#    font = Anonymice Powerline Bold 16
+#    font = DejaVu Sans Mono for Powerline Bold 14
+#    font = DejaVu Sans Mono Bold 12
 #    font = terminus 12
-    palette = "#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:#cd00cd:#2efefe:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:#c825d6:#00ffff:#ffffff"
+#    palette = "#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:#cd00cd:#2efefe:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:#c825d6:#00ffff:#ffffff"
+     palette = "#090300:#db2d20:#01a252:#fded02:#01a0e4:#a16a94:#b5e4f4:#a5a2a2:#5c5855:#db2d20:#01a252:#fded02:#01a0e4:#a16a94:#b5e4f4:#f7f7f7"
 
 
 # special
