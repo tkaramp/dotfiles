@@ -6,10 +6,25 @@ Config
 --    , alpha = 0
     , commands = [ Run StdinReader
                  , Run Date "<fc=#bbbbbb>%A %d, <fc=#ffffff>%H:%M</fc></fc>" "date" 30
-                 , Run MultiCpu ["-H", "50", "--high","red", "-S", "on", "-t", "<total>"] 30
-                 , Run Memory ["-H", "70", "--high", "red", "-S", "on", "-t", "<usedratio>"] 30
+                 , Run MultiCpu ["-H", "50", "--high","darkred", "-S", "on", "-t", "<total>"] 30
+                 , Run Memory ["-H", "70", "--high", "darkred", "-S", "on", "-t", "<usedratio>"] 30
                  , Run DynNetwork ["-t", "<rx> / <tx>Kb/s"] 30
-                 , Run Battery ["-S", "on", "-t", "<left>", "-L", "20", "--low", "red"] 30
-                 ]
-    , template = "  %StdinReader% }{ <fc=#888888><fc=#6b2c74><icon=.xmonad/icons/down.xbm/></fc><fc=#88591b><icon=.xmonad/icons/up.xbm/></fc>  %dynnetwork%  <fc=#2c4b50><icon=.xmonad/icons/cpu.xbm/></fc> %multicpu%   <fc=#366136><icon=.xmonad/icons/mem.xbm/></fc> %memory%</fc>   <fc=#7c3131><icon=.xmonad/icons/battery.xbm/></fc> %battery%       %date%  "
+                 , Run BatteryP ["BAT1"] ["-S", "on"
+                               , "-t", "<acstatus>  <left>"
+                               , "-L", "20"
+                               , "--low", "darkred"
+                               , "--"
+                               , "-O", "<fc=darkgreen><icon=.xmonad/icons/battery.xbm/></fc>"
+                               , "-o", "<fc=#7c3131><icon=.xmonad/icons/battery.xbm/></fc>"
+                 ] 30
+      ]
+    , template = "  %StdinReader% }{ <fc=#888888><fc=#6b2c74><icon=.xmonad/icons/down.xbm/></fc><fc=#88591b><icon=.xmonad/icons/up.xbm/></fc>  %dynnetwork%  <fc=#2c4b50><icon=.xmonad/icons/cpu.xbm/></fc> %multicpu%   <fc=#366136><icon=.xmonad/icons/mem.xbm/></fc> %memory%</fc>    %battery%       %date%  "
     }
+
+
+
+
+
+
+
+

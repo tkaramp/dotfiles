@@ -18,6 +18,10 @@
     ~/.axelrc: axelrc
     ~/.emacs: emacs/emacs
     ~/.Xdefaults: Xdefaults
-
+    ~/.config/terminator/config/: config/terminator/config
+    ~/.compton.conf: compton.conf
+    ~/.vimrc: vimrc
+    ~/.stalonetrayrc: stalonetrayrc
+    ~/.Xresources: Xresources
 - shell:
   - git update-submodules # after linking ~/.gitconfig
