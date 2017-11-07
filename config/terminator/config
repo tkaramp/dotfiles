@@ -20,7 +20,10 @@
     background_image = None
     background_type = transparent
     cursor_color = "#afc4db"  # "#839496"
-    font = Pragmata Pro for Powerline Bold 12
+#    font = Pragmata Pro for Powerline Bold 13
+    font = Hack Bold 13
+    scrollback_infinite = True
+    scroll_on_output = False
 #    font = Source Code Pro for Powerline Bold 14
 #    font = Anonymice Powerline Bold 16
 #    font = DejaVu Sans Mono for Powerline Bold 14

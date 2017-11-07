@@ -380,8 +380,9 @@ myXPConfig = defaultXPConfig                                    -- (23)
 
 -- Scratchpads -----------------------------------------------------
 
-scratchpadSize = W.RationalRect (l) (t) (w) (h)
+--scratchpadSize = W.RationalRect (l) (t) (w) (h)
 --scratchpadSize = W.RationalRect (1/4) (1/4) (1/2) (1/2)
+scratchpadSize = W.RationalRect (1 -w) (0) (w) (1/2)
       where
         -- reusing these variables is ok since they're confined to their own 
         -- where clauses 
